@@ -15,12 +15,14 @@ docker run \
 """
 
 from langchain_community.document_loaders import TextLoader
-from langchain_openai import OpenAIEmbeddings
+# from langchain_openai import OpenAIEmbeddings
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_postgres.vectorstores import PGVector
 from langchain_core.documents import Document
 import uuid
+from langchain_google_genai import GoogleGenerativeAIEmbeddings
 
+embeddings_model = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
 
 # See docker command above to launch a postgres instance with pgvector enabled.
 connection = "postgresql+psycopg://langchain:langchain@localhost:6024/langchain"
@@ -32,7 +34,7 @@ text_splitter = RecursiveCharacterTextSplitter(
 documents = text_splitter.split_documents(raw_documents)
 
 # Create embeddings for the documents
-embeddings_model = OpenAIEmbeddings()
+# embeddings_model = OpenAIEmbeddings()
 
 db = PGVector.from_documents(
     documents, embeddings_model, connection=connection)

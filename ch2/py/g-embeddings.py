@@ -1,6 +1,9 @@
-from langchain_openai import OpenAIEmbeddings
+# from langchain_openai import OpenAIEmbeddings
+from langchain_google_genai import GoogleGenerativeAIEmbeddings
 
-model = OpenAIEmbeddings(model="text-embedding-3-small")
+model = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
+
+# model = OpenAIEmbeddings(model="text-embedding-3-small")
 embeddings = model.embed_documents([
     "Hi there!",
     "Oh, hello!",

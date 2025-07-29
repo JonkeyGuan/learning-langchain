@@ -1,20 +1,24 @@
 from langchain_community.document_loaders import TextLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_openai import OpenAIEmbeddings
+# from langchain_openai import OpenAIEmbeddings
 from langchain_postgres.vectorstores import PGVector
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate
 from pydantic import BaseModel
 from langchain_core.runnables import RunnablePassthrough
-from langchain_openai import ChatOpenAI
+# from langchain_openai import ChatOpenAI
 from langchain_core.documents import Document
 from langchain.retrievers.multi_vector import MultiVectorRetriever
 from langchain.storage import InMemoryStore
 import uuid
+from langchain_google_genai import GoogleGenerativeAIEmbeddings
+from langchain_google_genai import ChatGoogleGenerativeAI
+
+embeddings_model = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
 
 connection = "postgresql+psycopg://langchain:langchain@localhost:6024/langchain"
 collection_name = "summaries"
-embeddings_model = OpenAIEmbeddings()
+# embeddings_model = OpenAIEmbeddings()
 # Load the document
 loader = TextLoader("./test.txt", encoding="utf-8")
 docs = loader.load()
@@ -28,7 +32,8 @@ chunks = splitter.split_documents(docs)
 prompt_text = "Summarize the following document:\n\n{doc}"
 
 prompt = ChatPromptTemplate.from_template(prompt_text)
-llm = ChatOpenAI(temperature=0, model="gpt-3.5-turbo")
+# llm = ChatOpenAI(temperature=0, model="gpt-3.5-turbo")
+llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash")
 summarize_chain = {
     "doc": lambda x: x.page_content} | prompt | llm | StrOutputParser()
 
