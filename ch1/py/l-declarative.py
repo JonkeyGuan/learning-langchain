@@ -1,5 +1,8 @@
 from langchain_openai.chat_models import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate
+from langchain_google_genai import ChatGoogleGenerativeAI
+
+model = ChatGoogleGenerativeAI(model="gemini-1.5-flash")
 
 # the building blocks
 
@@ -10,7 +13,7 @@ template = ChatPromptTemplate.from_messages(
     ]
 )
 
-model = ChatOpenAI()
+# model = ChatOpenAI()
 
 # combine them with the | operator
 

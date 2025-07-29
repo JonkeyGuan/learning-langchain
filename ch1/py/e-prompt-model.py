@@ -1,5 +1,8 @@
-from langchain_openai.chat_models import ChatOpenAI
+# from langchain_openai.chat_models import ChatOpenAI
 from langchain_core.prompts import PromptTemplate
+from langchain_google_genai import ChatGoogleGenerativeAI
+
+model = ChatGoogleGenerativeAI(model="gemini-1.5-flash")
 
 # both `template` and `model` can be reused many times
 
@@ -11,7 +14,7 @@ Question: {question}
 
 Answer: """)
 
-model = ChatOpenAI(model="gpt-3.5-turbo")
+# model = ChatOpenAI(model="gpt-3.5-turbo")
 
 # `prompt` and `completion` are the results of using template and model once
 
