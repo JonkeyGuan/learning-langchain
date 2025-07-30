@@ -1,14 +1,17 @@
 from typing import Annotated, TypedDict
 
 from langchain_core.messages import HumanMessage, SystemMessage
-from langchain_openai import ChatOpenAI
+# from langchain_openai import ChatOpenAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 from langgraph.graph import END, START, StateGraph
 from langgraph.graph.message import add_messages
 
 # useful to generate SQL query
-model_low_temp = ChatOpenAI(temperature=0.1)
+# model_low_temp = ChatOpenAI(temperature=0.1)
+model_low_temp = ChatGoogleGenerativeAI(model="gemini-1.5-flash", temperature=0.1)
 # useful to generate natural language outputs
-model_high_temp = ChatOpenAI(temperature=0.7)
+# model_high_temp = ChatOpenAI(temperature=0.7)
+model_high_temp = ChatGoogleGenerativeAI(model="gemini-1.5-flash", temperature=0.7)
 
 
 class State(TypedDict):
