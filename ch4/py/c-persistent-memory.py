@@ -1,7 +1,8 @@
 from typing import Annotated, TypedDict
 
 from langchain_core.messages import HumanMessage
-from langchain_openai import ChatOpenAI
+# from langchain_openai import ChatOpenAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 from langgraph.graph import StateGraph, START, END, add_messages
 from langgraph.checkpoint.memory import MemorySaver
 
@@ -12,7 +13,8 @@ class State(TypedDict):
 
 builder = StateGraph(State)
 
-model = ChatOpenAI()
+# model = ChatOpenAI()
+model = ChatGoogleGenerativeAI(model="gemini-1.5-flash")
 
 
 def chatbot(state: State):

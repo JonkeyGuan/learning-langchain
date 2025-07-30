@@ -4,7 +4,8 @@ from langchain_core.messages import (
     AIMessage,
     trim_messages,
 )
-from langchain_openai import ChatOpenAI
+# from langchain_openai import ChatOpenAI
+from langchain_google_genai import GoogleGenerativeAI
 
 # Define sample messages
 messages = [
@@ -25,7 +26,8 @@ messages = [
 trimmer = trim_messages(
     max_tokens=65,
     strategy="last",
-    token_counter=ChatOpenAI(model="gpt-4o"),
+    # token_counter=ChatOpenAI(model="gpt-4o"),
+    token_counter=GoogleGenerativeAI(model="gemini-1.5-flash"),
     include_system=True,
     allow_partial=False,
     start_on="human",
