@@ -14,11 +14,13 @@ from langchain_community.tools import QuerySQLDatabaseTool
 from langchain_community.utilities import SQLDatabase
 from langchain.chains import create_sql_query_chain
 # replace this with the connection details of your db
-from langchain_openai import ChatOpenAI
+# from langchain_openai import ChatOpenAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 
 db = SQLDatabase.from_uri("sqlite:///Chinook.db")
 print(db.get_usable_table_names())
-llm = ChatOpenAI(model="gpt-3.5-turbo", temperature=0)
+# llm = ChatOpenAI(model="gpt-3.5-turbo", temperature=0)
+llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash", temperature=0)
 
 # convert question to sql query
 write_query = create_sql_query_chain(llm, db)

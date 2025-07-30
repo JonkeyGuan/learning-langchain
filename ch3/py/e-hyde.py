@@ -1,11 +1,13 @@
 from langchain_community.document_loaders import TextLoader
-from langchain_openai import OpenAIEmbeddings
+# from langchain_openai import OpenAIEmbeddings
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_postgres.vectorstores import PGVector
-from langchain_openai import ChatOpenAI
+# from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import chain
 from langchain_core.output_parsers import StrOutputParser
+from langchain_google_genai import GoogleGenerativeAIEmbeddings
+from langchain_google_genai import ChatGoogleGenerativeAI
 
 # See docker command above to launch a postgres instance with pgvector enabled.
 connection = "postgresql+psycopg://langchain:langchain@localhost:6024/langchain"
@@ -17,7 +19,8 @@ text_splitter = RecursiveCharacterTextSplitter(
 documents = text_splitter.split_documents(raw_documents)
 
 # Create embeddings for the documents
-embeddings_model = OpenAIEmbeddings()
+# embeddings_model = OpenAIEmbeddings()
+embeddings_model = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
 
 db = PGVector.from_documents(
     documents, embeddings_model, connection=connection)
@@ -28,7 +31,8 @@ retriever = db.as_retriever(search_kwargs={"k": 5})
 prompt_hyde = ChatPromptTemplate.from_template(
     """Please write a passage to answer the question.\n Question: {question} \n Passage:""")
 
-generate_doc = (prompt_hyde | ChatOpenAI(temperature=0) | StrOutputParser())
+# generate_doc = (prompt_hyde | ChatOpenAI(temperature=0) | StrOutputParser())
+generate_doc = (prompt_hyde | ChatGoogleGenerativeAI(model="gemini-1.5-flash", temperature=0)| StrOutputParser())
 
 """
 Next, we take the hypothetical document generated above and use it as input to the retriever, 
@@ -42,8 +46,8 @@ prompt = ChatPromptTemplate.from_template(
     """Answer the question based only on the following context: {context} Question: {question} """
 )
 
-llm = ChatOpenAI(model="gpt-3.5-turbo", temperature=0)
-
+# llm = ChatOpenAI(model="gpt-3.5-turbo", temperature=0)
+llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash", temperature=0)
 
 @chain
 def qa(input):

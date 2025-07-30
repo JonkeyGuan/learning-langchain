@@ -4,7 +4,8 @@ from langchain_core.prompts import ChatPromptTemplate
 from pydantic import BaseModel, Field
 from langchain_openai import ChatOpenAI
 from langchain_core.runnables import RunnableLambda
-
+from langchain_google_genai import GoogleGenerativeAIEmbeddings
+from langchain_google_genai import ChatGoogleGenerativeAI
 
 # Data model class
 class RouteQuery(BaseModel):
@@ -17,7 +18,8 @@ class RouteQuery(BaseModel):
 
 # Prompt template
 # LLM with function call
-llm = ChatOpenAI(model="gpt-4o", temperature=0)
+# llm = ChatOpenAI(model="gpt-4o", temperature=0)
+llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash", temperature=0)
 
 """
 with_structured_output: Model wrapper that returns outputs formatted to match the given schema.
