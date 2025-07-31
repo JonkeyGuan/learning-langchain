@@ -6,13 +6,16 @@ from langchain_core.messages import (
     HumanMessage,
     SystemMessage,
 )
-from langchain_openai import ChatOpenAI
+# from langchain_openai import ChatOpenAI
+from langchain_google_genai import GoogleGenerativeAI
 from langgraph.graph import END, START, StateGraph
 from langgraph.graph.message import add_messages
 
 # Initialize chat model
-model = ChatOpenAI()
-
+# model = ChatOpenAI()
+model = GoogleGenerativeAI(
+    model="gemini-1.5-flash"
+)   
 
 # Define state type
 class State(TypedDict):
